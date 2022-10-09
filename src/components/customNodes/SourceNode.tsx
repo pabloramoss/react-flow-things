@@ -3,8 +3,12 @@ import {Handle, Position} from "reactflow";
 
 import Node, {contentStyle as style} from "./Node";
 
-// @ts-ignore
-const SourceNode = ({data, selected, id}) => {
+interface Props {
+  data: any;
+  selected: any;
+}
+
+const SourceNode: React.FC<Props> = ({data, selected}) => {
   return (
     <Node
       id={data.blockId}
