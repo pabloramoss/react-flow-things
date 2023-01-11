@@ -1,7 +1,8 @@
 import React, {memo} from "react";
 import {Handle, Position} from "reactflow";
 
-import Node, {contentStyle as style} from "./Node";
+import Node from "./Node";
+import {contentStyle as style} from "./nodeStyle"
 
 interface Props {
   data: any;
