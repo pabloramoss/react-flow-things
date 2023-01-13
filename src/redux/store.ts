@@ -1,7 +1,6 @@
-import {configureStore} from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
 import graphReducer from "../redux/slices/graphSlice";
-
 
 export const store = configureStore({
   reducer: {

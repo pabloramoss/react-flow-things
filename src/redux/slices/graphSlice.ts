@@ -1,6 +1,7 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Node } from "reactflow";
-import { GraphInitialState as initialState } from "../../types/graph"
+
+import { GraphInitialState as initialState } from "../../types/graph";
 
 const graphSlice = createSlice({
   name: "graph",
@@ -10,14 +11,11 @@ const graphSlice = createSlice({
       state.nodes.push(action.payload);
     },
     deleteNode: (state, action: PayloadAction<Node>) => {
-      state.nodes = state.nodes.filter(node => node.id !== action.payload.id)
-    }
+      state.nodes = state.nodes.filter((node) => node.id !== action.payload.id);
+    },
   },
 });
 
-export const {
-  addNode,
-  deleteNode,
-} = graphSlice.actions;
+export const { addNode, deleteNode } = graphSlice.actions;
 
 export default graphSlice.reducer;

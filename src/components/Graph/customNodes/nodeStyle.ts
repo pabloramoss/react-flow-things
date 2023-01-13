@@ -11,12 +11,11 @@ export const contentStyle = {
     flexGrow: 1,
     backgroundColor: "white",
     borderRadius: "5px",
-    
   },
-  left: {left: "0px"},
-  textLeft: {textAlign: "left"},
-  right: {right: "-8px"},
-  textRight: {textAlign: "right"},
+  left: { left: "0px" },
+  textLeft: { textAlign: "left" },
+  right: { right: "-8px" },
+  textRight: { textAlign: "right" },
   handle: {
     background: "#ddd",
     borderRadius: "15px",

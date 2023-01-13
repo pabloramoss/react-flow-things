@@ -1,18 +1,17 @@
-import React, {memo} from "react";
-import {Handle, Position} from "reactflow";
+import React, { memo } from "react";
+import { Handle, Position } from "reactflow";
 
 import Node from "./Node";
-import {contentStyle as style} from "./nodeStyle"
+import { contentStyle as style } from "./nodeStyle";
 
 interface Props {
   data: any;
   selected: any;
 }
 
-const TargetNode: React.FC<Props> = ({data, selected}) => {
+const TargetNode: React.FC<Props> = ({ data, selected }) => {
   return (
     <Node
-      id={data.blockId}
       color="#e0bbe4"
       content={
         // @ts-ignore
@@ -21,11 +20,12 @@ const TargetNode: React.FC<Props> = ({data, selected}) => {
           <Handle
             id="o__data"
             position={Position.Top}
-            style={{...style.handle, ...style.right}}
+            style={{ ...style.handle, ...style.right }}
             type="target"
           />
         </div>
       }
+      id={data.blockId}
       label={data.label}
       selected={selected}
     />

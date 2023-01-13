@@ -8,4 +8,6 @@ export const Container = styled.div<Props>`
   height: 100%;
   width: ${(p) => (p.isOpen ? "500px" : "0")};
   transition: 0.5s width;
+  display: flex;
+  align-items: space-between;
 `;
