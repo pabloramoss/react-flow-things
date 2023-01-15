@@ -42,7 +42,6 @@ export const Graph: React.FC = () => {
 
   const handleNewNode = () => {
     const dimensions = element.current?.getBoundingClientRect();
-    // const position = project({x: (dimensions!.width)/2 as number, y: (dimensions!.height)/2 as number})
     const position = { x: dimensions!.width / 2 - 100, y: dimensions!.height / 2 };
 
     const newNode = {
