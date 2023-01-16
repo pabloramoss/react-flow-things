@@ -12,7 +12,8 @@ import ReactFlow, {
 } from "reactflow";
 
 import "reactflow/dist/style.css";
-import { initialNodes1, initialEdges } from "../../constants/graph";
+import { initialNode } from "../../constants/initialNode";
+import Toolbar from "../Toolbar/Toolbar";
 
 import SourceNode from "./customNodes/SourceNode";
 import DefaultNode from "./customNodes/DefaultNode";
@@ -25,8 +26,8 @@ const nodeTypes = {
 };
 
 export const Graph: React.FC = () => {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes1);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const [nodes, setNodes] = useState<Node[]>([initialNode]);
+  const [edges, setEdges] = useState<Edge[]>([]);
   const element = useRef<HTMLDivElement>(null);
 
   const onNodesChange = useCallback(
@@ -57,9 +58,13 @@ export const Graph: React.FC = () => {
 
   return (
     <div ref={element} style={{ height: "100%", width: "100%" }}>
-      <button style={{ zIndex: 700 }} onClick={handleNewNode}>
+      {/* <button
+        style={{ zIndex: 700, position: "absolute", top: "0", left: "0" }}
+        onClick={handleNewNode}
+      >
         New node
-      </button>
+      </button> */}
+      <Toolbar />
       <ReactFlow
         edges={edges}
         id="este-es-un-id"
