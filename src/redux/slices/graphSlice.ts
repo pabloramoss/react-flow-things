@@ -13,9 +13,12 @@ const graphSlice = createSlice({
     deleteNode: (state, action: PayloadAction<Node>) => {
       state.nodes = state.nodes.filter((node) => node.id !== action.payload.id);
     },
+    setSidebarOpen: (state, action: PayloadAction<boolean>) => {
+      state.sidebarOpen = action.payload;
+    },
   },
 });
 
-export const { addNode, deleteNode } = graphSlice.actions;
+export const { addNode, deleteNode, setSidebarOpen } = graphSlice.actions;
 
 export default graphSlice.reducer;

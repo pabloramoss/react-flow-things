@@ -14,6 +14,8 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { initialNode } from "../../constants/initialNode";
 import Toolbar from "../Toolbar/Toolbar";
+import { useAppDispatch } from "../../redux/hooks";
+import { setSidebarOpen } from "../../redux/slices/graphSlice";
 
 import SourceNode from "./customNodes/SourceNode";
 import DefaultNode from "./customNodes/DefaultNode";
@@ -55,15 +57,22 @@ export const Graph: React.FC = () => {
 
     setNodes(newArray);
   };
+  const dispatch = useAppDispatch();
+  const onNodeClick = () => {
+    dispatch(setSidebarOpen(true));
+  };
+  const onPaneClick = () => {
+    dispatch(setSidebarOpen(false));
+  };
 
   return (
     <div ref={element} style={{ height: "100%", width: "100%" }}>
-      {/* <button
+      <button
         style={{ zIndex: 700, position: "absolute", top: "0", left: "0" }}
         onClick={handleNewNode}
       >
         New node
-      </button> */}
+      </button>
       <Toolbar />
       <ReactFlow
         edges={edges}
@@ -72,7 +81,9 @@ export const Graph: React.FC = () => {
         nodes={nodes}
         onConnect={onConnect}
         onEdgesChange={onEdgesChange}
+        onNodeClick={onNodeClick}
         onNodesChange={onNodesChange}
+        onPaneClick={onPaneClick}
       >
         <Background />
         <Controls />
