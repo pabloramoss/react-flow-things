@@ -18,7 +18,7 @@ const Node: React.FC<NodeProps> = ({ label, selected, color, content, id }: Node
   return (
     // @ts-ignore
     <div style={{ ...style.body, ...(selected ? style.selected : []), position: "" }}>
-      <NodeToolbar id={["1", "2"]} isVisible={true}>
+      <NodeToolbar isVisible={selected}>
         <button>delete</button>
         <button>copy</button>
       </NodeToolbar>
