@@ -36,6 +36,7 @@ export const style = {
     borderRadius: "5px",
     width: "200px",
     textAlign: "center",
+    cursor: "pointer",
   },
   selected: {
     boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)",

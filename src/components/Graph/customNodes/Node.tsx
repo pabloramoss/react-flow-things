@@ -1,4 +1,5 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
+import { NodeToolbar } from "reactflow";
 
 import { style } from "./nodeStyle";
 interface NodeProps {
@@ -17,6 +18,10 @@ const Node: React.FC<NodeProps> = ({ label, selected, color, content, id }: Node
   return (
     // @ts-ignore
     <div style={{ ...style.body, ...(selected ? style.selected : []), position: "" }}>
+      <NodeToolbar id={["1", "2"]} isVisible={true}>
+        <button>delete</button>
+        <button>copy</button>
+      </NodeToolbar>
       {/* @ts-ignore */}
       <div style={customTitle} />
       <div style={style.contentWrapper}>{content}</div>
