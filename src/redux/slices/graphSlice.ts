@@ -1,5 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Node } from "reactflow";
+import {
+  addEdge,
+  applyEdgeChanges,
+  applyNodeChanges,
+  Connection,
+  Node,
+  NodeChange,
+  updateEdge,
+} from "reactflow";
 
 import { GraphInitialState as initialState } from "../../types/graph";
 
@@ -13,7 +21,14 @@ const graphSlice = createSlice({
       state.nodes.push(action.payload);
     },
     deleteNode: (state, action: PayloadAction<NodeId>) => {
-      state.nodes = state.nodes.filter((node) => node.id !== action.payload);
+      const nodeId = action.payload;
+      const newNodesArray = state.nodes.filter((node) => node.id !== nodeId);
+      const newEdgesArray = state.edges.filter(
+        (edge) => edge.source !== nodeId && edge.target !== nodeId,
+      );
+
+      state.nodes = newNodesArray;
+      state.edges = newEdgesArray;
     },
     copyNode: (state, action: PayloadAction<Node>) => {
       const { position } = action.payload;
@@ -26,12 +41,55 @@ const graphSlice = createSlice({
         state.nodes.push(newNode);
       }
     },
+    updateNodes: (state, action: PayloadAction<any>) => {
+      state.nodes = action.payload;
+    },
+    updateEdges: (state, action: PayloadAction<any>) => {
+      state.edges = action.payload;
+    },
+    nodesChange: (state, action: PayloadAction<NodeChange[]>) => {
+      const newNodeArray = applyNodeChanges(action.payload, state.nodes);
+
+      state.nodes = newNodeArray;
+    },
+    edgesChange: (state, action: PayloadAction<any>) => {
+      const newEdgeArray = applyEdgeChanges(action.payload, state.edges);
+
+      state.edges = newEdgeArray;
+    },
+    connectChange: (state, action: PayloadAction<Connection>) => {
+      const newEdgeArray = addEdge(action.payload, state.edges);
+
+      state.edges = newEdgeArray;
+    },
+    updateSingleEdge: (state, action: PayloadAction<any>) => {
+      const { oldEdge, newConnection } = action.payload;
+      const newEdgesArray = updateEdge(oldEdge, newConnection, state.edges);
+
+      state.edges = newEdgesArray;
+    },
+    removeEdge: (state, action: PayloadAction<any>) => {
+      const edge = action.payload;
+      const newEdgesArray = state.edges.filter((e) => e.id !== edge.id);
+
+      state.edges = newEdgesArray;
+    },
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.sidebarOpen = action.payload;
     },
   },
 });
 
-export const { addNode, deleteNode, copyNode, setSidebarOpen } = graphSlice.actions;
+export const {
+  addNode,
+  deleteNode,
+  copyNode,
+  nodesChange,
+  edgesChange,
+  connectChange,
+  removeEdge,
+  updateSingleEdge,
+  setSidebarOpen,
+} = graphSlice.actions;
 
 export default graphSlice.reducer;

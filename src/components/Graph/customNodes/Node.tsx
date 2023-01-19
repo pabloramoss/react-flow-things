@@ -23,9 +23,9 @@ const Node: React.FC<NodeProps> = ({ label, selected, color, content, id }: Node
   return (
     // @ts-ignore
     <div style={{ ...style.body, ...(selected ? style.selected : []), position: "" }}>
-      <NodeToolbar>
+      <NodeToolbar style={{ zIndex: 30 }}>
         <button onClick={() => dispatch(deleteNode(id))}>delete</button>
-        <button onClick={() => dispatch(copyNode(id))}>copy</button>
+        {/* <button onClick={() => dispatch(copyNode())}>copy</button> */}
       </NodeToolbar>
       {/* @ts-ignore */}
       <div style={customTitle} />

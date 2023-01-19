@@ -14,8 +14,9 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { initialNode } from "../../constants/initialNode";
 import Toolbar from "../Toolbar/Toolbar";
-import { useAppDispatch } from "../../redux/hooks";
-import { setSidebarOpen } from "../../redux/slices/graphSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addNode, setSidebarOpen } from "../../redux/slices/graphSlice";
+import useGraphHandlers from "../../hooks/useGraphHandlers";
 
 import SourceNode from "./customNodes/SourceNode";
 import DefaultNode from "./customNodes/DefaultNode";
@@ -28,20 +29,10 @@ const nodeTypes = {
 };
 
 export const Graph: React.FC = () => {
-  const [nodes, setNodes] = useState<Node[]>([initialNode]);
-  const [edges, setEdges] = useState<Edge[]>([]);
+  const { nodes, edges } = useAppSelector((state) => state.graph);
   const element = useRef<HTMLDivElement>(null);
-
-  const onNodesChange = useCallback(
-    (changes: NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [],
-  );
-  const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [],
-  );
-
-  const onConnect = useCallback((params: any) => setEdges((eds) => addEdge(params, eds)), []);
+  const dispatch = useAppDispatch();
+  const { onNodesChange, onEdgesChange, onConnect } = useGraphHandlers();
 
   const handleNewNode = () => {
     const dimensions = element.current?.getBoundingClientRect();
@@ -51,14 +42,12 @@ export const Graph: React.FC = () => {
       id: String(Date.now()),
       data: { label: "Hello", blockId: "1" },
       position,
-      type: "sourceNode",
+      type: "defaultNode",
     };
-    const newArray = nodes.concat(newNode);
 
-    setNodes(newArray);
+    dispatch(addNode(newNode));
   };
-  const dispatch = useAppDispatch();
-  const onNodeClick = (e: React.MouseEvent, node: Node) => {
+  const onNodeClick = () => {
     dispatch(setSidebarOpen(true));
   };
   const onPaneClick = () => {
