@@ -1,6 +1,9 @@
 import React, { memo, useState } from "react";
 import { NodeToolbar } from "reactflow";
 
+import { useAppDispatch } from "../../../redux/hooks";
+import { deleteNode, copyNode } from "../../../redux/slices/graphSlice";
+
 import { style } from "./nodeStyle";
 interface NodeProps {
   label: string;
@@ -14,13 +17,15 @@ const Node: React.FC<NodeProps> = ({ label, selected, color, content, id }: Node
 
   if (color) customTitle.backgroundColor = color;
 
+  const dispatch = useAppDispatch();
+
   // Collapse contentWrapper on icon click
   return (
     // @ts-ignore
     <div style={{ ...style.body, ...(selected ? style.selected : []), position: "" }}>
-      <NodeToolbar isVisible={selected}>
-        <button>delete</button>
-        <button>copy</button>
+      <NodeToolbar>
+        <button onClick={() => dispatch(deleteNode(id))}>delete</button>
+        <button onClick={() => dispatch(copyNode(id))}>copy</button>
       </NodeToolbar>
       {/* @ts-ignore */}
       <div style={customTitle} />

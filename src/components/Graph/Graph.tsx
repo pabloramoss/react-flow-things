@@ -59,7 +59,6 @@ export const Graph: React.FC = () => {
   };
   const dispatch = useAppDispatch();
   const onNodeClick = (e: React.MouseEvent, node: Node) => {
-    console.log(node);
     dispatch(setSidebarOpen(true));
   };
   const onPaneClick = () => {
