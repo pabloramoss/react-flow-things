@@ -7,16 +7,17 @@ import { contentStyle as style } from "./nodeStyle";
 interface Props {
   data: any;
   selected: any;
+  id: string;
 }
 
-const SourceNode: React.FC<Props> = ({ data, selected }) => {
+const SourceNode: React.FC<Props> = ({ data, selected, id }) => {
   return (
     <Node
       color="#add5fa"
       content={
         // @ts-ignore
         <div style={style.io}>
-          {"Source"}
+          {data.label}
           <Handle
             id="o__data"
             position={Position.Bottom}
@@ -25,7 +26,7 @@ const SourceNode: React.FC<Props> = ({ data, selected }) => {
           />
         </div>
       }
-      id={data.blockId}
+      id={id}
       label={data.label}
       selected={selected}
     />

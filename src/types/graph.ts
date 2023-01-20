@@ -1,6 +1,6 @@
 import { Node, Edge } from "reactflow";
 
-import { initialNode } from "../constants/initialNode";
+import { initialNode } from "../constants/nodes";
 
 export interface Graph {
   nodes: Node[];
@@ -9,7 +9,7 @@ export interface Graph {
 }
 
 export const GraphInitialState: Graph = {
-  nodes: [initialNode],
+  nodes: [],
   edges: [],
   sidebarOpen: false,
 };

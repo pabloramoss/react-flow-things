@@ -1,40 +1,19 @@
-import { useState, useCallback, useRef } from "react";
-import ReactFlow, {
-  Controls,
-  Background,
-  applyNodeChanges,
-  applyEdgeChanges,
-  addEdge,
-  Edge,
-  Node,
-  NodeChange,
-  EdgeChange,
-  useReactFlow,
-} from "reactflow";
+import { useRef } from "react";
+import ReactFlow, { Controls, Background, useReactFlow, useStore } from "reactflow";
 
 import "reactflow/dist/style.css";
-import { initialNode } from "../../constants/initialNode";
+import { nodeTypes } from "../../constants/nodes";
 import Toolbar from "../Toolbar/Toolbar";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { addNode, setSidebarOpen } from "../../redux/slices/graphSlice";
 import useGraphHandlers from "../../hooks/useGraphHandlers";
-
-import SourceNode from "./customNodes/SourceNode";
-import DefaultNode from "./customNodes/DefaultNode";
-import TargetNode from "./customNodes/TargetNode";
-
-const nodeTypes = {
-  sourceNode: SourceNode,
-  targetNode: TargetNode,
-  defaultNode: DefaultNode,
-};
 
 export const Graph: React.FC = () => {
   const { nodes, edges } = useAppSelector((state) => state.graph);
   const element = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { onNodesChange, onEdgesChange, onConnect } = useGraphHandlers();
-  const { getViewport, project } = useReactFlow();
+  const { project } = useReactFlow();
 
   const handleNewNode = () => {
     const dimensions = element.current?.getBoundingClientRect();
@@ -59,12 +38,7 @@ export const Graph: React.FC = () => {
   const onPaneClick = () => {
     dispatch(setSidebarOpen(false));
   };
-
-  const handleViewport = () => {
-    const viewport = getViewport();
-
-    console.log(viewport);
-  };
+  const selectedNodes = useStore((store) => store.getNodes().filter((node) => node.selected));
 
   return (
     <div ref={element} style={{ height: "100%", width: "100%" }}>
@@ -74,12 +48,7 @@ export const Graph: React.FC = () => {
       >
         New node
       </button>
-      <button
-        style={{ zIndex: 700, position: "absolute", top: "0", right: "0" }}
-        onClick={handleViewport}
-      >
-        viewport
-      </button>
+      <button onClick={() => console.log(selectedNodes)}>console</button>
       <Toolbar />
       <ReactFlow
         edges={edges}

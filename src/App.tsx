@@ -1,5 +1,7 @@
+import { ReactFlowProvider } from "reactflow";
+
 import "./App.css";
-import FlowChart from "./components/Graph/FlowChart";
+import { Graph } from "./components/Graph";
 import SidebarNode from "./components/SidebarNode/SidebarNode";
 
 function App() {
@@ -14,8 +16,10 @@ function App() {
         overflow: "hidden",
       }}
     >
-      <FlowChart />
-      <SidebarNode />
+      <ReactFlowProvider>
+        <Graph />
+        <SidebarNode />
+      </ReactFlowProvider>
     </div>
   );
 }

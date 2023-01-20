@@ -1,8 +1,8 @@
-import React, { memo, useState } from "react";
+import React, { memo } from "react";
 import { NodeToolbar } from "reactflow";
 
 import { useAppDispatch } from "../../../redux/hooks";
-import { deleteNode, copyNode } from "../../../redux/slices/graphSlice";
+import { deleteNode } from "../../../redux/slices/graphSlice";
 
 import { style } from "./nodeStyle";
 interface NodeProps {
@@ -19,12 +19,16 @@ const Node: React.FC<NodeProps> = ({ label, selected, color, content, id }: Node
 
   const dispatch = useAppDispatch();
 
+  const handleDelete = () => {
+    dispatch(deleteNode(id));
+  };
+
   // Collapse contentWrapper on icon click
   return (
     // @ts-ignore
     <div style={{ ...style.body, ...(selected ? style.selected : []), position: "" }}>
       <NodeToolbar style={{ zIndex: 30 }}>
-        <button onClick={() => dispatch(deleteNode(id))}>delete</button>
+        <button onClick={handleDelete}>delete</button>
         {/* <button onClick={() => dispatch(copyNode())}>copy</button> */}
       </NodeToolbar>
       {/* @ts-ignore */}

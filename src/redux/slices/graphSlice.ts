@@ -23,12 +23,8 @@ const graphSlice = createSlice({
     deleteNode: (state, action: PayloadAction<NodeId>) => {
       const nodeId = action.payload;
       const newNodesArray = state.nodes.filter((node) => node.id !== nodeId);
-      const newEdgesArray = state.edges.filter(
-        (edge) => edge.source !== nodeId && edge.target !== nodeId,
-      );
 
       state.nodes = newNodesArray;
-      state.edges = newEdgesArray;
     },
     copyNode: (state, action: PayloadAction<Node>) => {
       const { position } = action.payload;
@@ -40,6 +36,11 @@ const graphSlice = createSlice({
 
         state.nodes.push(newNode);
       }
+    },
+    modifyNode: (state, action: PayloadAction<Node>) => {
+      const nodeIndex = state.nodes.findIndex((node) => node.id === action.payload.id);
+
+      state.nodes.splice(nodeIndex, 1, action.payload);
     },
     updateNodes: (state, action: PayloadAction<any>) => {
       state.nodes = action.payload;
@@ -84,6 +85,9 @@ export const {
   addNode,
   deleteNode,
   copyNode,
+  modifyNode,
+  updateNodes,
+  updateEdges,
   nodesChange,
   edgesChange,
   connectChange,
