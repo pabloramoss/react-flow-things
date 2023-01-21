@@ -15,30 +15,12 @@ export const Graph: React.FC = () => {
   const { onNodesChange, onEdgesChange, onConnect } = useGraphHandlers();
   const { project } = useReactFlow();
 
-  const handleNewNode = () => {
-    const dimensions = element.current?.getBoundingClientRect();
-    const relativePosition = project({ x: dimensions!.width / 2, y: dimensions!.height / 2 });
-
-    const centerX = relativePosition.x - 100;
-    const centerY = relativePosition.y;
-    const position = { x: centerX, y: centerY };
-
-    const newNode = {
-      id: String(Date.now()),
-      data: { label: "Hello", blockId: "1" },
-      position,
-      type: "defaultNode",
-    };
-
-    dispatch(addNode(newNode));
-  };
   const onNodeClick = () => {
     dispatch(setSidebarOpen(true));
   };
   const onPaneClick = () => {
     dispatch(setSidebarOpen(false));
   };
-  const selectedNodes = useStore((store) => store.getNodes().filter((node) => node.selected));
 
   return (
     <div ref={element} style={{ height: "100%", width: "100%" }}>
@@ -48,7 +30,6 @@ export const Graph: React.FC = () => {
       >
         New node
       </button>
-      <button onClick={() => console.log(selectedNodes)}>console</button>
       <Toolbar />
       <ReactFlow
         edges={edges}
