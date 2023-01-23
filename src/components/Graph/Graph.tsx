@@ -1,25 +1,34 @@
 import { useRef } from "react";
-import ReactFlow, { Controls, Background, useReactFlow, useStore } from "reactflow";
+import ReactFlow, { Controls, Background } from "reactflow";
 
 import "reactflow/dist/style.css";
+import { useStore } from "reactflow";
+
 import { nodeTypes } from "../../constants/nodes";
 import Toolbar from "../Toolbar/Toolbar";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { addNode, setSidebarOpen } from "../../redux/slices/graphSlice";
+import { setSidebarOpen } from "../../redux/slices/graphSlice";
 import useGraphHandlers from "../../hooks/useGraphHandlers";
+import useUpdateGraph from "../../hooks/useUpdateGraph";
 
 export const Graph: React.FC = () => {
   const { nodes, edges } = useAppSelector((state) => state.graph);
   const element = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { onNodesChange, onEdgesChange, onConnect } = useGraphHandlers();
-  const { project } = useReactFlow();
+  const { addNewNode } = useUpdateGraph();
 
   const onNodeClick = () => {
     dispatch(setSidebarOpen(true));
   };
   const onPaneClick = () => {
     dispatch(setSidebarOpen(false));
+  };
+
+  const handleNewNode = () => {
+    const dimensions = element.current?.getBoundingClientRect();
+
+    addNewNode({ width: dimensions!.width, height: dimensions!.height });
   };
 
   return (

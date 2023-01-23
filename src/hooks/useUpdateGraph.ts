@@ -14,7 +14,6 @@ const useUpdateGraph = () => {
   const { project } = useReactFlow();
 
   const addNewNode = (elementDimensions: Dimensions) => {
-    // const dimensions = element.current?.getBoundingClientRect();
     const relativePosition = project({
       x: elementDimensions.width / 2,
       y: elementDimensions.height / 2,
