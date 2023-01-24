@@ -1,15 +1,15 @@
 import { useRef } from "react";
-import ReactFlow, { Controls, Background } from "reactflow";
+import ReactFlow, { Background, Controls } from "reactflow";
 
 import "reactflow/dist/style.css";
-import { useStore } from "reactflow";
 
 import { nodeTypes } from "../../constants/nodes";
-import Toolbar from "../Toolbar/Toolbar";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setSidebarOpen } from "../../redux/slices/graphSlice";
 import useGraphHandlers from "../../hooks/useGraphHandlers";
 import useUpdateGraph from "../../hooks/useUpdateGraph";
+import { initialNodes, iterateNodes } from "../../mocks/testStress";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setSidebarOpen, updateNodes } from "../../redux/slices/graphSlice";
+import Toolbar from "../Toolbar/Toolbar";
 
 export const Graph: React.FC = () => {
   const { nodes, edges } = useAppSelector((state) => state.graph);
@@ -31,6 +31,12 @@ export const Graph: React.FC = () => {
     addNewNode({ width: dimensions!.width, height: dimensions!.height });
   };
 
+  const loadNodes = () => {
+    const nodesStressTest = iterateNodes(initialNodes, 80);
+
+    dispatch(updateNodes(nodesStressTest));
+  };
+
   return (
     <div ref={element} style={{ height: "100%", width: "100%" }}>
       <button
@@ -39,6 +45,8 @@ export const Graph: React.FC = () => {
       >
         New node
       </button>
+      <button onClick={loadNodes}>stress test</button>
+      <button onClick={() => console.log(nodes, edges)}>consolelog</button>
       <Toolbar />
       <ReactFlow
         edges={edges}
