@@ -1,9 +1,8 @@
-import { SERVER_DIRECTORY } from "next/dist/shared/lib/constants";
 import { useEffect, useState } from "react";
 import { useStore } from "reactflow";
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { modifyNode, setSidebarOpen, updateNodes } from "../../redux/slices/graphSlice";
+import { modifyNode, setSidebarOpen } from "../../redux/slices/graphSlice";
 
 import { Container } from "./SidebarNode.styles";
 const SidebarNode: React.FC = () => {
@@ -20,7 +19,7 @@ const SidebarNode: React.FC = () => {
 
   useEffect(() => {
     if (selectedNodes.length === 1) setTitle(selectedNodes[0].data.label);
-  }, [selectedNodes.length]);
+  }, [selectedNodes]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedNodes.length === 1) {
@@ -35,7 +34,7 @@ const SidebarNode: React.FC = () => {
 
   return (
     <Container isOpen={isOpen}>
-      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+      <div>
         <input
           placeholder="Titulo"
           value={selectedNodes.length === 1 ? selectedNodes[0].data.label : ""}
