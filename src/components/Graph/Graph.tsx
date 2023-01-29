@@ -10,6 +10,7 @@ import ReactFlow, {
   NodeChange,
   EdgeChange,
   useReactFlow,
+  useStore,
 } from "reactflow";
 
 import "reactflow/dist/style.css";
@@ -35,6 +36,8 @@ export const Graph: React.FC = () => {
   const dispatch = useAppDispatch();
   const { onNodesChange, onEdgesChange, onConnect } = useGraphHandlers();
   const { getViewport, project } = useReactFlow();
+  const state = useStore((s) => s.nodeInternals);
+  const edgess = useStore((s) => s.edges);
 
   const handleNewNode = () => {
     const dimensions = element.current?.getBoundingClientRect();
@@ -60,12 +63,6 @@ export const Graph: React.FC = () => {
     dispatch(setSidebarOpen(false));
   };
 
-  const handleViewport = () => {
-    const viewport = getViewport();
-
-    console.log(viewport);
-  };
-
   return (
     <div ref={element} style={{ height: "100%", width: "100%" }}>
       <button
@@ -73,12 +70,6 @@ export const Graph: React.FC = () => {
         onClick={handleNewNode}
       >
         New node
-      </button>
-      <button
-        style={{ zIndex: 700, position: "absolute", top: "0", right: "0" }}
-        onClick={handleViewport}
-      >
-        viewport
       </button>
       <Toolbar />
       <ReactFlow
