@@ -7,16 +7,17 @@ import { contentStyle as style } from "./nodeStyle";
 interface Props {
   data: any;
   selected: any;
+  id: string;
 }
 
-const DefaultNode: React.FC<Props> = ({ data, selected }) => {
+const DefaultNode: React.FC<Props> = ({ data, selected, id }) => {
   return (
     <Node
       color="lightgrey"
       content={
         // @ts-ignore
         <div style={style.io}>
-          {"Default"}
+          {data.label}
           <Handle
             id="o__data"
             position={Position.Top}
@@ -31,7 +32,7 @@ const DefaultNode: React.FC<Props> = ({ data, selected }) => {
           />
         </div>
       }
-      id={data.blockId}
+      id={id}
       label={data.label}
       selected={selected}
     />

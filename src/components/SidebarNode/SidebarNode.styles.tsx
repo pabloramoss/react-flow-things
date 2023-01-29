@@ -17,4 +17,10 @@ export const Container = styled.div<Props>`
   top: 0;
   z-index: 5;
   background: grey;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 `;

@@ -1,66 +1,40 @@
-import { useState, useCallback, useRef } from "react";
-import ReactFlow, {
-  Controls,
-  Background,
-  applyNodeChanges,
-  applyEdgeChanges,
-  addEdge,
-  Edge,
-  Node,
-  NodeChange,
-  EdgeChange,
-  useReactFlow,
-  useStore,
-} from "reactflow";
+import { useRef } from "react";
+import ReactFlow, { Controls, Background } from "reactflow";
 
 import "reactflow/dist/style.css";
-import { initialNode } from "../../constants/initialNode";
-import Toolbar from "../Toolbar/Toolbar";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { addNode, setSidebarOpen } from "../../redux/slices/graphSlice";
+
+import { nodeTypes } from "../../constants/nodes";
 import useGraphHandlers from "../../hooks/useGraphHandlers";
-
-import SourceNode from "./customNodes/SourceNode";
-import DefaultNode from "./customNodes/DefaultNode";
-import TargetNode from "./customNodes/TargetNode";
-
-const nodeTypes = {
-  sourceNode: SourceNode,
-  targetNode: TargetNode,
-  defaultNode: DefaultNode,
-};
+import useUpdateGraph from "../../hooks/useUpdateGraph";
+import { initialNodes, iterateNodes } from "../../mocks/testStress";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setSidebarOpen, updateNodes } from "../../redux/slices/graphSlice";
+import Toolbar from "../Toolbar/Toolbar";
 
 export const Graph: React.FC = () => {
   const { nodes, edges } = useAppSelector((state) => state.graph);
   const element = useRef<HTMLDivElement>(null);
   const dispatch = useAppDispatch();
   const { onNodesChange, onEdgesChange, onConnect } = useGraphHandlers();
-  const { getViewport, project } = useReactFlow();
-  const state = useStore((s) => s.nodeInternals);
-  const edgess = useStore((s) => s.edges);
+  const { addNewNode } = useUpdateGraph();
 
-  const handleNewNode = () => {
-    const dimensions = element.current?.getBoundingClientRect();
-    const relativePosition = project({ x: dimensions!.width / 2, y: dimensions!.height / 2 });
-
-    const centerX = relativePosition.x - 100;
-    const centerY = relativePosition.y;
-    const position = { x: centerX, y: centerY };
-
-    const newNode = {
-      id: String(Date.now()),
-      data: { label: "Hello", blockId: "1" },
-      position,
-      type: "defaultNode",
-    };
-
-    dispatch(addNode(newNode));
-  };
   const onNodeClick = () => {
     dispatch(setSidebarOpen(true));
   };
   const onPaneClick = () => {
     dispatch(setSidebarOpen(false));
+  };
+
+  const handleNewNode = () => {
+    const dimensions = element.current?.getBoundingClientRect();
+
+    addNewNode({ width: dimensions!.width, height: dimensions!.height });
+  };
+
+  const loadNodes = () => {
+    const nodesStressTest = iterateNodes(initialNodes, 80);
+
+    dispatch(updateNodes(nodesStressTest));
   };
 
   return (
@@ -71,6 +45,8 @@ export const Graph: React.FC = () => {
       >
         New node
       </button>
+      <button onClick={loadNodes}>stress test</button>
+      <button onClick={() => console.log(nodes, edges)}>consolelog</button>
       <Toolbar />
       <ReactFlow
         edges={edges}
