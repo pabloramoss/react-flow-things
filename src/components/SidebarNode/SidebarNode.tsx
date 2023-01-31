@@ -16,9 +16,9 @@ const SidebarNode: React.FC = () => {
     dispatch(setSidebarOpen(false));
   };
 
-  useEffect(() => {
-    if (selectedNodes.length === 1) setTitle(selectedNodes[0].data.label);
-  }, [selectedNodes]);
+  // useEffect(() => {
+  //   if (selectedNodes.length === 1) setTitle(selectedNodes[0].data.label);
+  // }, [selectedNodes]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (selectedNodes.length === 1) {
@@ -34,6 +34,7 @@ const SidebarNode: React.FC = () => {
   return (
     <Container isOpen={isOpen}>
       <div>
+        <h3>{selectedNodes.length && selectedNodes[0].id}</h3>
         <input
           placeholder="Titulo"
           value={selectedNodes.length === 1 ? selectedNodes[0].data.label : ""}
